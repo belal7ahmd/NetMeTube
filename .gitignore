@@ -1,0 +1,14 @@
+# Dependencies
+node_modules/
+.svelte-kit/
+build/
+
+# Environment
+.env
+.env.local
+
+# OS junk
+.DS_Store
+
+# Docker
+data/

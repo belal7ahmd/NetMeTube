@@ -42,21 +42,21 @@
   method="POST" 
   class="flex flex-col  gap-4 p-10 rounded-3xl bg-white m-auto size-auto shadow-xl/30 w-[30%]" 
   use:enhance={handleSignup}>
-    {#if form?.status}
+    {#if form?.status == "err"}
       <p class="text-red-500 text-xl" >{form?.message}</p>
     {/if}
 
     <label for="username">Username</label>
-    <input type="text" name="username" class="rounded-full" required/>
+    <input type="text" name="username" class="rounded-full" required />
 
     <label for="email">Email:</label>
-    <input type="text" name="email" class="rounded-full" required/>
+    <input type="text" name="email" class="rounded-full" required />
 
     <label for="password">Password:</label>
-    <input type="password" name="password" class="rounded-full" />
+    <input type="password" name="password" class="rounded-full" required />
 
     <label for="confirmPassword">Confirm Password:</label>
-    <input type="password" name="confirmPassword" class="rounded-full"  />
+    <input type="password" name="confirmPassword" class="rounded-full"  required />
     
     <button type="submit" class="rounded-full bg-cyan-300 hover:bg-cyan-400 p-1">Sign Up</button>
 </form>

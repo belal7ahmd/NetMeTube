@@ -1,16 +1,16 @@
 import { BACKEND_HOST, BACKEND_PORT } from "$env/static/private"
 import { redirect, fail } from "@sveltejs/kit";
+import { NODE_ENV } from "$env/static/private";
 
 /** @type {import('./$types').Actions} */
 export const actions = {
   default: async ({ request, cookies }) => {
     const formData = await request.formData();
     
-    const username = formData.get("username")
     const email = formData.get("email");
     const password = formData.get("password")
 
-    if (!(username && email && password)) {
+    if (!(email && password)) {
         return {
             status: 'err',
             message: 'Fields not Filled'
@@ -19,14 +19,13 @@ export const actions = {
 
     console.log(BACKEND_HOST, BACKEND_PORT)
     try {
-        let response = await fetch(`${BACKEND_HOST}:${BACKEND_PORT}/signup`, {
+        let response = await fetch(`${BACKEND_HOST}:${BACKEND_PORT}/login`, {
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
             },
 
             body:JSON.stringify({
-                username:username,
                 email:email,
                 password:password
             })
@@ -35,10 +34,22 @@ export const actions = {
         let json = await response.json()
 
         if (json.status === "success") {
-            throw redirect(303, '/login');
+            console.log(json.token)
+            cookies.set(
+                "token",
+                json.token,
+                {   
+                    path:"/",
+                    httpOnly:true,
+                    secure: process.env.NODE_ENV === 'production'
+                }
+            )
+            throw redirect(303, '/'); 
         }
 
-        return fail(500, {status:"err", message: json.message || "Signup failed" });
+        console.log(response, json)
+
+        return fail(401, {status:"err", message: json.message || "Login failed" });
 
     } catch (e) {
 

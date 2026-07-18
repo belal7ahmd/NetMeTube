@@ -3,6 +3,9 @@ node_modules/
 .svelte-kit/
 build/
 
+# videos
+uploads/
+
 # Environment
 .env
 .env.local

@@ -68,7 +68,7 @@ export const actions = {
         }
 
         return {
-            status:"success",
+            status:202,
             message:"Video uploaded successfully"
         }
     }
